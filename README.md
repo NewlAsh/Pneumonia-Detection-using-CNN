@@ -69,6 +69,4 @@ Sigmoid
     ↓
 Positive / Negative
 ```
-##THANKS
-
-> **Note:** This project is for educational purposes and is not intended for medical diagnosis.
+## THANKS
