@@ -1,0 +1,450 @@
+CNN MODEL SUMMARY — CALCULATIONS
+
+INPUT
+--------------------------------------------------
+Image size = 100 × 100 × 1
+1 channel because the images are grayscale.
+
+"None" in the model summary = batch size is not fixed.
+It means: (number of images, height, width, channels)
+
+
+1. Conv2D(64, (3,3))
+--------------------------------------------------
+Input:
+100 × 100 × 1
+
+Number of filters = 64
+Filter size = 3 × 3
+Padding = "valid" (default)
+Stride = 1 (default)
+
+Output height:
+100 - 3 + 1 = 98
+
+Output width:
+100 - 3 + 1 = 98
+
+Output channels:
+64 (because there are 64 filters)
+
+Output:
+98 × 98 × 64
+
+Parameters:
+Each filter has:
+3 × 3 × 1 = 9 weights
++ 1 bias
+= 10 parameters
+
+64 filters:
+10 × 64 = 640 parameters
+
+Therefore:
+Output = (None, 98, 98, 64)
+Params = 640
+
+
+2. ReLU Activation
+--------------------------------------------------
+Input:
+98 × 98 × 64
+
+ReLU does not change the shape.
+
+Output:
+98 × 98 × 64
+
+Parameters:
+0
+
+Reason:
+ReLU has no trainable weights or biases.
+
+
+3. MaxPooling2D(2,2)
+--------------------------------------------------
+Input:
+98 × 98 × 64
+
+Pool size = 2 × 2
+Stride = 2 (default)
+
+Output height:
+floor((98 - 2) / 2) + 1
+= floor(96 / 2) + 1
+= 48 + 1
+= 49
+
+Output width:
+49
+
+Channels remain:
+64
+
+Output:
+49 × 49 × 64
+
+Parameters:
+0
+
+
+4. Dropout(0.2)
+--------------------------------------------------
+Input:
+49 × 49 × 64
+
+20% of activations are randomly dropped during training.
+
+Shape does not change.
+
+Output:
+49 × 49 × 64
+
+Parameters:
+0
+
+
+5. Conv2D(128, (3,3))
+--------------------------------------------------
+Input:
+49 × 49 × 64
+
+Number of filters = 128
+Filter size = 3 × 3
+
+Output height:
+49 - 3 + 1 = 47
+
+Output width:
+47
+
+Output channels:
+128
+
+Output:
+47 × 47 × 128
+
+Parameters:
+
+Each filter:
+3 × 3 × 64 = 576 weights
++ 1 bias
+= 577 parameters
+
+128 filters:
+577 × 128
+= 73,856 parameters
+
+Therefore:
+Output = (None, 47, 47, 128)
+Params = 73,856
+
+
+6. ReLU Activation
+--------------------------------------------------
+Output:
+47 × 47 × 128
+
+Parameters:
+0
+
+
+7. MaxPooling2D(2,2)
+--------------------------------------------------
+Input:
+47 × 47 × 128
+
+Output height:
+floor((47 - 2) / 2) + 1
+= floor(45 / 2) + 1
+= 22 + 1
+= 23
+
+Output:
+23 × 23 × 128
+
+Parameters:
+0
+
+
+8. Dropout(0.2)
+--------------------------------------------------
+Output:
+23 × 23 × 128
+
+Parameters:
+0
+
+
+9. Conv2D(256, (3,3))
+--------------------------------------------------
+Input:
+23 × 23 × 128
+
+Number of filters = 256
+
+Output height:
+23 - 3 + 1 = 21
+
+Output width:
+21
+
+Output channels:
+256
+
+Output:
+21 × 21 × 256
+
+Parameters:
+
+Each filter:
+3 × 3 × 128
+= 1,152 weights
+
++ 1 bias
+= 1,153 parameters
+
+256 filters:
+1,153 × 256
+= 295,168 parameters
+
+Therefore:
+Output = (None, 21, 21, 256)
+Params = 295,168
+
+
+10. ReLU Activation
+--------------------------------------------------
+Output:
+21 × 21 × 256
+
+Parameters:
+0
+
+
+11. MaxPooling2D(2,2)
+--------------------------------------------------
+Input:
+21 × 21 × 256
+
+Output height:
+floor((21 - 2) / 2) + 1
+= floor(19 / 2) + 1
+= 9 + 1
+= 10
+
+Output:
+10 × 10 × 256
+
+Parameters:
+0
+
+
+12. Dropout(0.2)
+--------------------------------------------------
+Output:
+10 × 10 × 256
+
+Parameters:
+0
+
+
+13. Flatten()
+--------------------------------------------------
+Input:
+10 × 10 × 256
+
+Flatten converts the 3D feature maps into one 1D vector.
+
+10 × 10 × 256
+= 25,600
+
+Output:
+25,600
+
+Parameters:
+0
+
+
+14. Dense(64)
+--------------------------------------------------
+Input neurons:
+25,600
+
+Output neurons:
+64
+
+Every input neuron connects to every output neuron.
+
+Weights:
+25,600 × 64
+= 1,638,400
+
+Biases:
+64
+
+Total parameters:
+1,638,400 + 64
+= 1,638,464
+
+Output:
+64
+
+Therefore:
+Output = (None, 64)
+Params = 1,638,464
+
+
+15. Dense(1)
+--------------------------------------------------
+Input neurons:
+64
+
+Output neurons:
+1
+
+Weights:
+64 × 1
+= 64
+
+Bias:
+1
+
+Total:
+64 + 1
+= 65
+
+Output:
+1
+
+Therefore:
+Output = (None, 1)
+Params = 65
+
+
+16. Sigmoid Activation
+--------------------------------------------------
+Input:
+1
+
+Sigmoid converts the value into a number between 0 and 1.
+
+Example:
+0.12 → likely Negative
+0.91 → likely Positive
+
+Output:
+1
+
+Parameters:
+0
+
+
+TOTAL TRAINABLE PARAMETERS
+--------------------------------------------------
+
+Conv1:
+640
+
+Conv2:
+73,856
+
+Conv3:
+295,168
+
+Dense1:
+1,638,464
+
+Dense2:
+65
+
+Total:
+
+640
++ 73,856
++ 295,168
++ 1,638,464
++ 65
+= 2,008,193
+
+
+FINAL FLOW
+--------------------------------------------------
+
+100 × 100 × 1
+        ↓
+Conv2D(64, 3×3)
+98 × 98 × 64
+        ↓
+MaxPool(2×2)
+49 × 49 × 64
+        ↓
+Conv2D(128, 3×3)
+47 × 47 × 128
+        ↓
+MaxPool(2×2)
+23 × 23 × 128
+        ↓
+Conv2D(256, 3×3)
+21 × 21 × 256
+        ↓
+MaxPool(2×2)
+10 × 10 × 256
+        ↓
+Flatten
+25,600
+        ↓
+Dense(64)
+64
+        ↓
+Dense(1)
+1
+        ↓
+Sigmoid
+0 to 1
+
+
+IMPORTANT FORMULAS
+--------------------------------------------------
+
+Conv2D output (valid padding, stride 1):
+
+output = input - filter + 1
+
+
+Conv2D parameters:
+
+(filter_height × filter_width × input_channels + 1)
+× number_of_filters
+
+
+Dense parameters:
+
+(input_neurons × output_neurons)
++ output_neurons
+
+
+MaxPooling output:
+
+floor((input - pool_size) / stride) + 1
+
+
+Flatten:
+
+height × width × channels
+
+
+"None":
+
+None represents the batch size.
+Keras leaves it unspecified because you can give the model
+any number of images at once.
+
+For example:
+
+(32, 100, 100, 1)
+(64, 100, 100, 1)
+(952, 100, 100, 1)
+
+are all valid batch sizes.
